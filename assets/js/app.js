@@ -1,7 +1,8 @@
-import { getAllUsers as showUsers } from "./modules/view/userViews.js";
+import { showAllUsers, showUser } from "./modules/view/userViews.js";
 // globals ----------------------------------------------------------------
+window._myEventListeners = { userClicked, returnToTable };
 
-
+let globalUserData;
 // fetch users  model code ------------------------------------------------
 fetchUsers();
 
@@ -33,9 +34,23 @@ function fetchUsers() {
 
 // viev codes ------------------------------------------------
 function recivedUsers(myUsers) {
-
-    showUsers(myUsers, 'app', false);
-
+    globalUserData = myUsers;
+    showAllUsers(myUsers, 'app', true, 'vis');
 
 }
 
+function userClicked(myId) {
+    console.warn(myId);
+
+    globalUserData.forEach((userObject) => {
+        
+        if (userObject.id == myId) {
+            showUser(userObject, 'app', true);
+        }
+    });
+}
+
+function returnToTable() {
+    showAllUsers(globalUserData, 'app', true, 'vis');
+    
+}
